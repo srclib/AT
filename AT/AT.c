@@ -15,7 +15,7 @@
  */
 
 //#define LOG_NDEBUG 0
-#define LOG_TAG "srclib.huyanwei.FrameBufferMode"
+#define LOG_TAG "srclib.huyanwei.AT"
 
 #define TAG	LOG_TAG
 
@@ -64,7 +64,9 @@ pthread_mutex_t device_mutex = PTHREAD_MUTEX_INITIALIZER;
 void usage(const char * name)
 {
 	printf("\r\n%s usage :\r\n",name);
-	printf("\r\n%s -d /dev/ttyC0 AT_CMD\r\n",name);
+	printf("%s -d /dev/ttyC0 -c AT_CMD\r\n",name);
+	printf("%s -d /dev/ttyC0 -c at\r\n",name);
+	printf("%s -d /dev/ttyC0 -c ati\r\n",name);
 	printf("\r\nAuthor:huyanwei\r\n");
 	printf("Email :srclib@hotmail.com\r\n");
 	return ;
