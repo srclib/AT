@@ -63,10 +63,10 @@ pthread_mutex_t device_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void usage(const char * name)
 {
-	printf("\r\n%s usage :\r\n",name);
-	printf("%s -d /dev/ttyC0 -c AT_CMD\r\n",name);
-	printf("%s -d /dev/ttyC0 -c at\r\n",name);
-	printf("%s -d /dev/ttyC0 -c ati\r\n",name);
+	printf("\r\nusage : %s -d device_path -t wait_second -c at_commmand \r\n",name);
+	printf("%s -d /dev/ttyC0 -t 3 -c AT_CMD\r\n",name);
+	printf("%s -d /dev/ttyC0 -t 3 -c at\r\n",name);
+	printf("%s -d /dev/ttyC0 -t 3 -c ati\r\n",name);
 	printf("\r\nAuthor:huyanwei\r\n");
 	printf("Email :srclib@hotmail.com\r\n");
 	return ;
@@ -87,6 +87,8 @@ int main(int argc, char **argv)
 		.tv_sec  = 1,
 		.tv_usec = 0
 	};
+
+    int retry_max_times = 3 ;
 	int retry_times = 0 ;
 
 	char device_name[128] = { 0 } ;
@@ -99,7 +101,7 @@ int main(int argc, char **argv)
 
 
     do {
-        c = getopt(argc, argv, "d:c:h");
+        c = getopt(argc, argv, "d:t:c:h");
 
         #if 0
         printf("optarg=%s \n",optarg);
@@ -116,6 +118,9 @@ int main(int argc, char **argv)
         {
             case 'd':
 				strcpy((char *)&device_name[0],optarg);
+                break;
+            case 't':
+				retry_max_times = strtol(optarg, NULL, 0);
                 break;
             case 'c':
 				strcpy((char *)&at_command[0],optarg);
@@ -200,7 +205,7 @@ int main(int argc, char **argv)
 		if(readable == 1)
 			break;
 
-		if(retry_times > 3)
+		if(retry_times > retry_max_times )
 		{
 			printf("read device time out.\r\n");
 			break;
