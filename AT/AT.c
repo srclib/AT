@@ -196,8 +196,10 @@ int main(int argc, char **argv)
 					if(FD_ISSET(fd,&read_set))
 					{
 						readable = 1 ;
-						read(fd,buffer,sizeof(buffer)-1);
-						printf("%s\r\n",buffer);
+						if(read(fd,buffer,sizeof(buffer)-1) >= 0 )
+						{
+							printf("%s\r\n",buffer);
+						}
 					}
 					break;
 		}
